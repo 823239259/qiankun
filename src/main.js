@@ -83,27 +83,40 @@ registerMicroApps(enhancedMicroApps, {
     }
 })
 
+// 监听路由变化，确保子应用路由正确激活
+router.beforeEach((to, from, next) => {
+    console.log('[主应用] 路由变化:', to.path)
+    next()
+})
+
 // 启动 qiankun
 start({
     sandbox: {
         strictStyleIsolation: false, // 关闭严格样式隔离，允许样式正常加载
-        experimentalStyleIsolation: false // 关闭实验性样式隔离
+        experimentalStyleIsolation: false, // 关闭实验性样式隔离
+        // 允许加载 ES 模块
+        loose: true
     },
     prefetch: false, // 关闭预加载，避免提前加载导致问题
     singular: false, // 是否单实例模式
-    // 自定义 fetch，处理跨域和错误
+    // 自定义 fetch，处理跨域和错误，忽略 Vite 客户端脚本
     fetch: (url, ...args) => {
+        const urlString = typeof url === 'string' ? url : (url instanceof Request ? url.url : url.toString())
+        // 忽略 Vite 的客户端脚本和 HMR 相关请求
+        if (urlString.includes('/@vite/client') ||
+            urlString.includes('/@vite/env') ||
+            urlString.includes('/@vite/')) {
+            console.log('[qiankun] 拦截 Vite 客户端请求:', urlString)
+            return Promise.resolve(new Response('', {
+                status: 200,
+                headers: { 'Content-Type': 'application/javascript' }
+            }))
+        }
         return window.fetch(url, ...args).catch(err => {
             console.error('[qiankun] 加载资源失败:', url, err)
             throw err
         })
     }
-})
-
-// 监听路由变化，确保子应用路由正确激活
-router.beforeEach((to, from, next) => {
-    console.log('[主应用] 路由变化:', to.path)
-    next()
 })
 
 app.mount('#app')

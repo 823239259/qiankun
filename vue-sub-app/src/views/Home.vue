@@ -2,7 +2,7 @@
   <div class="home-view">
     <h3>子应用首页</h3>
     <div class="content-card">
-      <p>这是 Vue 子应用的首页内容</p>
+      <p>这是 Vue 子应用4的首页内容sdfsf</p>
       <div class="feature-list">
         <div class="feature-item">
           <h4>✅ 已接入 qiankun</h4>

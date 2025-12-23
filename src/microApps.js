@@ -14,11 +14,12 @@ export const microApps = [
         }
     },
     {
-        name: 'react-sub-app',
-        entry: '//localhost:8082',
-        container: '#subapp-viewport',
-        activeRule: '/react',
+        name: 'react-sub-app', // 微应用名称，必须唯一
+        entry: '//localhost:8082', // 微应用的入口地址（使用协议相对路径）
+        container: '#subapp-viewport', // 微应用挂载的容器
+        activeRule: '/react', // 激活路由规则
         props: {
+            // 传递给微应用的数据
             routerBase: '/react'
         }
     }

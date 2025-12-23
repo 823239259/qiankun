@@ -1,0 +1,147 @@
+.contact-view {
+  color: inherit;
+}
+
+.contact-view h3 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  color: #667eea;
+}
+
+.dark-mode .contact-view h3 {
+  color: #8b9aff;
+}
+
+.contact-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-info {
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  height: fit-content;
+}
+
+.dark-mode .contact-info {
+  background: #333;
+}
+
+.contact-info h4 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.dark-mode .contact-info h4 {
+  color: #e0e0e0;
+}
+
+.info-item {
+  margin-bottom: 1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.dark-mode .info-item {
+  color: #aaa;
+}
+
+.info-item strong {
+  color: #333;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.dark-mode .info-item strong {
+  color: #e0e0e0;
+}
+
+.contact-form {
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.dark-mode .contact-form {
+  background: #333;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.dark-mode .form-group label {
+  color: #e0e0e0;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.dark-mode .form-group input,
+.dark-mode .form-group textarea {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.dark-mode .form-group input:focus,
+.dark-mode .form-group textarea:focus {
+  border-color: #8b9aff;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-button:hover {
+  background: #5568d3;
+}
+
+.dark-mode .submit-button {
+  background: #8b9aff;
+  color: #1a1a1a;
+}
+
+.dark-mode .submit-button:hover {
+  background: #7a8aef;
+}
+
