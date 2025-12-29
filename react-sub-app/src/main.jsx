@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { renderWithQiankun, qiankunWindow } from 'vite-plugin-qiankun/dist/helper'
+import './public-path' // 必须在最前面导入，设置 public path
 import App from './App'
 import './index.css'
 

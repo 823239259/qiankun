@@ -60,25 +60,14 @@ const enhancedMicroApps = microApps.map(app => {
         }
     }
 
-    // 对于 React 子应用，使用 getTemplate 移除 type="module" 的脚本标签
-    // vite-plugin-qiankun 会自动处理入口脚本
-    // if (app.name === 'react-sub-app') {
-    //     enhancedApp.getTemplate = (tpl) => {
-    //         // 移除 type="module" 的脚本标签，让 vite-plugin-qiankun 处理
-    //         return tpl.replace(
-    //             /<script\s+type=["']module["'][^>]*src=["'][^"']*main\.jsx["'][^>]*>[\s\S]*?<\/script>/gi,
-    //             ''
-    //         )
-    //     }
-    // }
-
     return enhancedApp
 })
+
 
 // 注册微应用
 registerMicroApps(enhancedMicroApps, {
     beforeLoad: (app) => {
-        console.log('开始加载微应用:', app.name)
+        console.log('开始加载微应用:', app.name, 'entry:', app.entry, 'hasGetTemplate:', typeof app.getTemplate === 'function')
         return Promise.resolve()
     },
     beforeMount: (app) => {
@@ -112,29 +101,60 @@ router.afterEach((to, from) => {
     history.replaceState({ ...history.state, current: to.path }, to.name, '')
 })
 
-// 监听路由变化，确保子应用路由正确激活
-// router.beforeEach((to, from, next) => {
-//     console.log('[主应用] 路由变化:', to.path, 'from:', from.path)
 
-//     // 如果从子应用路由切换到主应用路由，确保子应用被卸载
-//     const isFromSubApp = from.path.startsWith('/vue') || from.path.startsWith('/react')
-//     const isToSubApp = to.path.startsWith('/vue') || to.path.startsWith('/react')
+// 检查是否是预览模式
+const isPreviewMode = typeof window !== 'undefined' &&
+    window.location.hostname === 'localhost' &&
+    !import.meta.env.DEV
 
-//     if (isFromSubApp && !isToSubApp) {
-//         console.log('[主应用] 从子应用路由切换到主应用路由，qiankun 会自动卸载子应用')
-//     }
+// 在预览模式下，拦截 window.fetch 来修改 HTML（在 registerMicroApps 之后设置）
+if (isPreviewMode && typeof window !== 'undefined') {
+    const originalFetch = window.fetch
+    // window.fetch = function(url, ...args) {
+    //     const urlString = typeof url === 'string' ? url : (url instanceof Request ? url.url : url.toString())
 
-//     // 如果从一个子应用切换到另一个子应用，确保前一个被卸载
-//     if (isFromSubApp && isToSubApp) {
-//         const fromApp = from.path.startsWith('/vue') ? 'vue' : 'react'
-//         const toApp = to.path.startsWith('/vue') ? 'vue' : 'react'
-//         if (fromApp !== toApp) {
-//             console.log('[主应用] 从一个子应用切换到另一个子应用:', fromApp, '->', toApp)
-//         }
-//     }
+    //     // 检查是否是子应用的 entry URL
+    //     const appConfig = enhancedMicroApps.find(app => {
+    //         const entryUrl = typeof app.entry === 'string' ? app.entry : app.entry.url || ''
+    //         // 匹配 entry URL（可能有或没有末尾斜杠）
+    //         return urlString === entryUrl ||
+    //             urlString === entryUrl.replace(/\/$/, '') ||
+    //             urlString === entryUrl + '/' ||
+    //             (entryUrl.endsWith('/') && urlString === entryUrl.slice(0, -1))
+    //     })
 
-//     next()
-// })
+    //     if (appConfig && appConfig.getTemplate && typeof appConfig.getTemplate === 'function') {
+    //         console.log(`[window.fetch 拦截] 拦截 ${appConfig.name} 的请求:`, urlString)
+    //         return originalFetch.apply(this, arguments).then(async (response) => {
+    //             // 只处理 HTML 响应
+    //             const contentType = response.headers.get('content-type') || ''
+    //             if (contentType.includes('text/html')) {
+    //                 const html = await response.clone().text()
+    //                 console.log(`[window.fetch 拦截] 获取到 ${appConfig.name} 的 HTML，长度:`, html.length)
+
+    //                 // 使用 getTemplate 修改 HTML
+    //                 const modifiedHtml = appConfig.getTemplate(html)
+    //                 console.log(`[window.fetch 拦截] getTemplate 修改后的 HTML 长度:`, modifiedHtml.length)
+
+    //                 // 返回修改后的响应
+    //                 return new Response(modifiedHtml, {
+    //                     status: response.status,
+    //                     statusText: response.statusText,
+    //                     headers: response.headers
+    //                 })
+    //             }
+    //             return response
+    //         }).catch(err => {
+    //             console.error('[window.fetch 拦截] 处理失败:', err)
+    //             throw err
+    //         })
+    //     }
+
+    //     // 其他请求正常处理
+    //     return originalFetch.apply(this, arguments)
+    // }
+    console.log('[main.js] 已设置 window.fetch 拦截器（预览模式）')
+}
 
 // 启动 qiankun
 start({
@@ -159,37 +179,7 @@ start({
             return false
         }
         return false
-    },
-    // 自定义 fetch，处理跨域和错误，忽略 Vite 客户端脚本
-    // fetch: (url, ...args) => {
-    //     const urlString = typeof url === 'string' ? url : (url instanceof Request ? url.url : url.toString())
-    //     // 忽略 Vite 的客户端脚本和 HMR 相关请求
-    //     if (urlString.includes('/@vite/client') ||
-    //         urlString.includes('/@vite/env') ||
-    //         urlString.includes('/@vite/')) {
-    //         console.log('[qiankun] 拦截 Vite 客户端请求:', urlString)
-    //         return Promise.resolve(new Response('', {
-    //             status: 200,
-    //             headers: { 'Content-Type': 'application/javascript' }
-    //         }))
-    //     }
-    //     // 拦截直接请求 main.jsx 的请求（qiankun 不应该直接执行 JSX 文件）
-    //     // 但允许通过 ?import 参数加载（这是 Vite 的模块导入）
-    //     if (urlString.includes('/src/main.jsx') &&
-    //         !urlString.includes('?import') &&
-    //         !urlString.includes('&import') &&
-    //         !urlString.includes('?t=')) {
-    //         console.log('[qiankun] 拦截 JSX 文件直接请求:', urlString)
-    //         return Promise.resolve(new Response('', {
-    //             status: 200,
-    //             headers: { 'Content-Type': 'application/javascript' }
-    //         }))
-    //     }
-    //     return window.fetch(url, ...args).catch(err => {
-    //         console.error('[qiankun] 加载资源失败:', url, err)
-    //         throw err
-    //     })
-    // }
+    }
 })
 
 app.mount('#app')

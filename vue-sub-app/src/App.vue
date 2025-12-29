@@ -2,8 +2,8 @@
   <div class="sub-app" :class="{ 'dark-mode': isDark }">
     <div class="sub-app-header">
       <h2>Vue 子应用</h2>
-      <p>这是一个可以接入 qiankun 主应用的子应用</p>
-      <div class="demo">demo</div>
+      <p>这是一个可以123接入 qiankun 主应333用的子应用</p>
+      <div class="demo">demo是对方身份</div>
       <img :src="assetListDetailBgN" alt="">
     </div>
     <div class="sub-app-content">

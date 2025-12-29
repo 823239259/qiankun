@@ -3,82 +3,13 @@ import react from '@vitejs/plugin-react'
 import qiankun from 'vite-plugin-qiankun'
 import { fileURLToPath, URL } from 'node:url'
 
-// 自定义插件：标记样式标签，防止被 qiankun 清理
-const styleMarkerPlugin = () => {
-    return {
-        name: 'style-marker',
-        enforce: 'post',
-        transformIndexHtml (html) {
-            // 确保样式标签有标记
-            return html.replace(
-                /<style([^>]*)>/g,
-                `<style$1 data-qiankun="react-sub-app">`
-            )
-        },
-        // 在开发模式下，通过客户端代码拦截样式注入
-        buildStart () {
-            // 在开发模式下，通过全局变量注入代码来标记样式
-            if (process.env.NODE_ENV === 'development') {
-                // 这个逻辑会在浏览器端执行
-            }
-        }
-    }
-}
-
-// 在开发模式下，通过客户端注入代码来标记样式标签
-const clientStyleMarker = () => {
-    return {
-        name: 'client-style-marker',
-        enforce: 'post',
-        transformIndexHtml (html, ctx) {
-            // 注入客户端代码，自动标记所有样式标签
-            const clientScript = `
-          <script>
-            (function() {
-              // 标记现有的样式标签
-              function markStyles() {
-                const styles = document.querySelectorAll('style:not([data-qiankun])')
-                styles.forEach(style => {
-                  // 检查是否是 Vite 注入的样式
-                  if (style.getAttribute('data-vite-dev-id') ||
-                      style.textContent.includes('react-sub-app') ||
-                      style.getAttribute('id')?.includes('vite')) {
-                    style.setAttribute('data-qiankun', 'react-sub-app')
-                  }
-                })
-              }
-
-              // 立即执行一次
-              markStyles()
-
-              // 监听 DOM 变化，自动标记新注入的样式
-              const observer = new MutationObserver(() => {
-                markStyles()
-              })
-
-              observer.observe(document.head, {
-                childList: true,
-                subtree: true
-              })
-
-              // 保存 observer，以便在需要时清理
-              window.__STYLE_MARKER_OBSERVER__ = observer
-            })()
-          </script>
-        `
-            return html.replace('</head>', clientScript + '</head>')
-        }
-    }
-}
 
 export default defineConfig({
     plugins: [
         react(),
         qiankun('react-sub-app', {
             useDevMode: true
-        }),
-        // styleMarkerPlugin(),
-        // clientStyleMarker()
+        })
     ],
     resolve: {
         alias: {
@@ -94,14 +25,63 @@ export default defineConfig({
         },
         hmr: false // 禁用 HMR，避免与 qiankun 冲突
     },
-    base: './',
+    // 生产环境基础路径，使用相对路径确保打包后资源路径正确
+    base: 'http://localhost:8082/',
     build: {
-        cssCodeSplit: false // 确保 CSS 被正确打包
+        // 输出目录
+        outDir: 'dist',
+        // 资源内联阈值（小于此大小的资源会被内联为 base64）
+        assetsInlineLimit: 4096,
+        // CSS 代码分割：false 表示所有 CSS 打包到一个文件中
+        cssCodeSplit: false,
+        // 生成 sourcemap（生产环境建议关闭）
+        sourcemap: false,
+        // 目标浏览器版本
+        target: ['chrome107', 'edge107', 'firefox104', 'safari16'],
+        // chunk 大小警告限制
+        chunkSizeWarningLimit: 2048,
+        // 是否生成 manifest.json
+        manifest: false,
+        // 压缩方式
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                drop_console: false, // 保留 console，方便调试
+                drop_debugger: true
+            },
+            mangle: {
+                keep_classnames: true,
+                keep_fnames: true
+            }
+        },
+        // Rollup 配置
+        rollupOptions: {
+            output: {
+                // 手动分包策略
+                manualChunks: {
+                    // 将 React 相关库单独打包
+                    'react-vendor': ['react', 'react-dom'],
+                    // 将 React Router 单独打包
+                    'router-vendor': ['react-router-dom']
+                },
+                // 资源文件命名
+                assetFileNames: 'assets/[name].[hash].[ext]',
+                // JS 文件命名
+                chunkFileNames: 'js/[name].[hash].js',
+                // 入口文件命名
+                entryFileNames: 'js/[name].[hash].js'
+            }
+        },
+        // Tree shaking 配置
+        treeshake: {
+            preset: 'recommended',
+            moduleSideEffects: false
+        }
     },
     css: {
-        devSourcemap: true
-        // .module.css 文件会自动启用 CSS Modules
-        // 不需要额外配置，Vite 会自动处理
+        devSourcemap: true,
+        // 生产环境 CSS 压缩
+        minify: true
     }
 })
 
