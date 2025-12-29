@@ -48,7 +48,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@import '@/css/common.css';
 
 .sub-app {
   min-height: 100vh;

@@ -3,6 +3,8 @@ import App from './App.vue'
 import { createRouterInstance } from './router'
 import { renderWithQiankun, qiankunWindow } from 'vite-plugin-qiankun/dist/helper'
 import './public-path'
+import '@/css/common.css';
+
 // 在 main.js 中导入 CSS，确保在每次挂载时都能重新加载样式
 // 如果在组件中导入 CSS，卸载后重新挂载时样式可能不会重新注入
 // import './css/common.css'
