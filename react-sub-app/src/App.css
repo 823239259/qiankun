@@ -17,7 +17,8 @@
   border-bottom: 2px solid #e0e0e0;
 }
 
-.sub-app.dark-mode .sub-app-header {
+.sub-app.dark-mode .sub-app-header,
+ .sub-app-header {
   border-bottom-color: #444;
 }
 
@@ -26,24 +27,29 @@
   color: #667eea;
 }
 
-.sub-app.dark-mode .sub-app-header h2 {
+.sub-app.dark-mode .sub-app-header h2,
+ .sub-app-header h2 {
   color: #8b9aff;
 }
 
 .sub-app-content {
   display: flex;
   gap: 2rem;
+  width: 100%;
 }
 
 .sub-nav {
   min-width: 200px;
+  width: 200px;
   padding: 1rem;
   background: #f5f5f5;
   border-radius: 8px;
   height: fit-content;
+  flex-shrink: 0;
 }
 
-.sub-app.dark-mode .sub-nav {
+.sub-app.dark-mode .sub-nav,
+ .sub-nav {
   background: #2a2a2a;
 }
 
@@ -57,7 +63,8 @@
   transition: all 0.3s;
 }
 
-.sub-app.dark-mode .nav-item {
+.sub-app.dark-mode .nav-item,
+ .nav-item {
   color: #e0e0e0;
 }
 
@@ -65,7 +72,8 @@
   background-color: #e0e0e0;
 }
 
-.sub-app.dark-mode .nav-item:hover {
+.sub-app.dark-mode .nav-item:hover,
+ .nav-item:hover {
   background-color: #3a3a3a;
 }
 
@@ -74,7 +82,8 @@
   color: white;
 }
 
-.sub-app.dark-mode .nav-item.active {
+.sub-app.dark-mode .nav-item.active,
+ .nav-item.active {
   background-color: #8b9aff;
   color: #1a1a1a;
 }
@@ -87,8 +96,80 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.sub-app.dark-mode .sub-content {
+.sub-app.dark-mode .sub-content,
+ .sub-content {
   background: #2a2a2a;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 加载状态样式 */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.loadingContent {
+  text-align: center;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 0.5rem;
+}
+
+.sub-app.dark-mode .loadingSpinner,
+ .loadingSpinner {
+  border-color: #444;
+  border-top-color: #8b9aff;
+}
+
+.loadingText {
+  margin: 0;
+  color: #666;
+}
+
+.sub-app.dark-mode .loadingText,
+ .loadingText {
+  color: #999;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 全屏加载容器 */
+.fullLoadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.fullLoadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+.sub-app.dark-mode .fullLoadingSpinner,
+ .fullLoadingSpinner {
+  border-color: #444;
+  border-top-color: #8b9aff;
 }
 

@@ -3,6 +3,8 @@
     <div class="sub-app-header">
       <h2>Vue 子应用</h2>
       <p>这是一个可以接入 qiankun 主应用的子应用</p>
+      <div class="demo">demo</div>
+      <img :src="assetListDetailBgN" alt="">
     </div>
     <div class="sub-app-content">
       <nav class="sub-nav">
@@ -19,6 +21,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import assetListDetailBgN from '@/assets/imgs/asset-list-detail-bg-n.png'
 
 const route = useRoute()
 const isDark = ref(false)
@@ -45,6 +48,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@import '@/css/common.css';
+
 .sub-app {
   min-height: 100vh;
   padding: 2rem;

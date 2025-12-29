@@ -2,6 +2,8 @@ import React from 'react'
 import './Dashboard.css'
 
 function Dashboard() {
+  console.log('[react-sub-app] Dashboard 组件渲染')
+
   const stats = [
     { label: '总用户数', value: '1,234', icon: '👥' },
     { label: '今日访问', value: '567', icon: '📊' },

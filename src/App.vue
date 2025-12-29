@@ -12,6 +12,8 @@
         <router-link to="/" class="nav-link">首页</router-link>
         <router-link to="/vue/home" class="nav-link">Vue 子应用</router-link>
         <router-link to="/react/home" class="nav-link">React 子应用</router-link>
+        <router-link to="/react/contact" class="nav-link">React 子应用 contact</router-link>
+
       </nav>
     </header>
     <main class="main-content">

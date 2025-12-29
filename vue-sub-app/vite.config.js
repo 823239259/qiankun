@@ -24,9 +24,15 @@ export default defineConfig({
         },
         hmr: false // 禁用 HMR，避免与 qiankun 冲突
     },
-    css: {
-        // 确保 CSS 被正确处理
-        devSourcemap: true
+    // css: {
+    //     // 确保 CSS 被正确处理
+    //     devSourcemap: true,
+    //     // 确保 CSS 被正确处理，不进行代码分割
+    //     modules: false
+    // },
+    build: {
+        // 确保 CSS 被正确打包，不进行代码分割
+        cssCodeSplit: false
     },
     base: './'
 })
