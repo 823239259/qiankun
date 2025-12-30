@@ -171,15 +171,15 @@ start({
     prefetch: false, // 关闭预加载，避免提前加载导致问题
     singular: false, // 是否单实例模式
     // 自定义资源过滤，防止样式被清理
-    excludeAssetFilter: (assetUrl) => {
-        // 对于 React 子应用的样式，不要过滤掉，确保样式被保留
-        // 这样可以避免卸载后重新加载时样式丢失
-        if (assetUrl.includes('react-sub-app') || assetUrl.includes('localhost:8082')) {
-            // 允许样式资源通过，不被清理
-            return false
-        }
-        return false
-    }
+    // excludeAssetFilter: (assetUrl) => {
+    //     // 对于 React 子应用的样式，不要过滤掉，确保样式被保留
+    //     // 这样可以避免卸载后重新加载时样式丢失
+    //     if (assetUrl.includes('react-sub-app') || assetUrl.includes('localhost:8082')) {
+    //         // 允许样式资源通过，不被清理
+    //         return false
+    //     }
+    //     return false
+    // }
 })
 
 app.mount('#app')

@@ -13,10 +13,27 @@ export default defineConfig({
     server: {
         port: 7777,
         cors: true,
-        origin: 'http://localhost:7777'
+        origin: 'http://localhost:7777',
+        proxy: {
+            // '/vue/': {
+            //     target: 'http://localhost:5555',
+            //     changeOrigin: true,
+            //     rewrite: (path) => path.replace(/^\/vue/, '/vue')
+            // },
+            // '/react/': {
+            //     target: 'http://localhost:8082',
+            //     changeOrigin: true,
+            //     rewrite: (path) => path.replace(/^\/react/, '/react')
+            // },
+            // "/*": {
+            //     target: 'http://localhost:7777',
+            //     changeOrigin: true,
+            //     rewrite: (path) => path.replace(/^\//, '/')
+            // }
+        },
     },
-    // 生产环境基础路径
-    base: './',
+    // 生产环境基础路径（使用绝对路径，确保在任何路由下都能正确加载资源）
+    base: '/',
     build: {
         // 输出目录
         outDir: 'dist',
@@ -64,8 +81,7 @@ export default defineConfig({
         },
         // Tree shaking 配置
         treeshake: {
-            preset: 'recommended',
-            moduleSideEffects: false
+            preset: 'recommended'
         }
     },
     css: {

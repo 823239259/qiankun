@@ -10,9 +10,14 @@
         "dev:react": "cd react-sub-app && npm run dev",
         "build": "vite build",
         "build:prod": "vite build --mode production",
-        "preview": "vite preview --port 7777",
-        "preview:prod": "vite preview --port 7777 --host",
+        "preview": "npx serve dist -l 7777 -s --cors --no-request-logging",
+        "preview:vue": "cd vue-sub-app && npm run preview",
+        "preview:react": "cd react-sub-app && npm run preview",
+        "preview:all": "concurrently --names \"主应用,Vue子应用,React子应用\" --prefix-colors \"blue,green,yellow\" --prefix \"{name}\" \"npm run preview\" \"npm run preview:vue\" \"npm run preview:react\"",
+        "preview:prod": "npx serve dist -l 7777 -s --cors",
         "build:all": "npm run build && cd vue-sub-app && npm run build && cd ../react-sub-app && npm run build",
+        "build:preview": "npm run build && cd vue-sub-app && npm run build:preview && cd ../react-sub-app && npm run build:preview",
+        "start:preview": "npm run build:preview && npm run preview:all",
         "deploy": "bash deploy.sh"
     },
     "dependencies": {

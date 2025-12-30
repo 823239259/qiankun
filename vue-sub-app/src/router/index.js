@@ -72,5 +72,4 @@ export function getRouter () {
 }
 
 // 默认导出（用于独立运行）
-export default createRouterInstance()
-
+export default router;

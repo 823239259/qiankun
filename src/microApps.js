@@ -15,29 +15,28 @@ const isPreview = !isDevelopment &&
     window.location.hostname === 'localhost'
 
 // 根据环境设置入口地址
-const getEntry = (port) => {
+// appName: 子应用名称，用于生成生产环境路径
+// port: 开发/预览环境端口
+const getEntry = (appName, port) => {
     if (isDevelopment) {
         // 开发环境：使用协议相对路径（自动适配 http/https）
         return `//localhost:${port}`
     } else if (isPreview) {
         // 预览环境：使用完整 URL（确保资源路径正确解析）
-        // 预览模式通常使用 http://（本地预览服务器）
         console.log('预览模式', `http://localhost:${port}/`)
-        return `http://localhost:${port}`
-
+        return `//localhost:${port}/`
     } else {
         // 生产环境：根据实际部署情况配置
-        // 同域部署：使用相对路径，如 '/vue-sub-app/'
+        // 同域部署：使用相对路径，如 '/vue/' 或 '/react/'
         // 独立部署：使用完整 URL，如 'https://vue-app.example.com/'
-        // 这里需要根据实际部署情况修改
-        return `/sub-app-${port}/` // 示例，需要根据实际部署调整
+        return `/${appName}/`
     }
 }
 
 export const microApps = [
     {
         name: 'vue-sub-app', // 微应用名称，必须唯一
-        entry: getEntry(5555), // 微应用的入口地址
+        entry: getEntry('vue', 5555), // 微应用的入口地址
         container: '#subapp-viewport', // 微应用挂载的容器
         activeRule: '/vue', // 激活路由规则
         props: {
@@ -47,7 +46,7 @@ export const microApps = [
     },
     {
         name: 'react-sub-app', // 微应用名称，必须唯一
-        entry: getEntry(8082), // 微应用的入口地址
+        entry: getEntry('react', 8082), // 微应用的入口地址
         container: '#subapp-viewport', // 微应用挂载的容器
         activeRule: '/react', // 激活路由规则
         props: {

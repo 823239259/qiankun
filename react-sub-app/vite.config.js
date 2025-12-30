@@ -4,7 +4,7 @@ import qiankun from 'vite-plugin-qiankun'
 import { fileURLToPath, URL } from 'node:url'
 
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
     plugins: [
         react(),
         qiankun('react-sub-app', {
@@ -25,8 +25,13 @@ export default defineConfig({
         },
         hmr: false // 禁用 HMR，避免与 qiankun 冲突
     },
-    // 生产环境基础路径，使用相对路径确保打包后资源路径正确
-    base: 'http://localhost:8082/',
+    // base 路径配置：
+    // - development: 完整 URL（开发服务器）
+    // - preview: 完整 URL（vite-plugin-qiankun 需要完整的部署地址）
+    // - production: 相对路径（生产部署）
+    base: mode === 'preview'
+        ? 'http://localhost:8082/'
+        : (mode === 'production' ? '/react/' : 'http://localhost:8082/'),
     build: {
         // 输出目录
         outDir: 'dist',
@@ -74,8 +79,7 @@ export default defineConfig({
         },
         // Tree shaking 配置
         treeshake: {
-            preset: 'recommended',
-            moduleSideEffects: false
+            preset: 'recommended'
         }
     },
     css: {
@@ -83,5 +87,5 @@ export default defineConfig({
         // 生产环境 CSS 压缩
         minify: true
     }
-})
+}))
 
