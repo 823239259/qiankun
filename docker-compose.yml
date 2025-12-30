@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  qiankun-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# 使用方法：
+# 构建并启动: docker-compose up -d --build
+# 查看日志: docker-compose logs -f
+# 停止: docker-compose down
+

@@ -17,8 +17,10 @@
         "preview:prod": "npx serve dist -l 7777 -s --cors",
         "build:all": "npm run build && cd vue-sub-app && npm run build && cd ../react-sub-app && npm run build",
         "build:preview": "npm run build && cd vue-sub-app && npm run build:preview && cd ../react-sub-app && npm run build:preview",
+        "build:all:prod": "npm run build:prod && cd vue-sub-app && npm run build:prod && cd ../react-sub-app && npm run build:prod",
         "start:preview": "npm run build:preview && npm run preview:all",
-        "deploy": "bash deploy.sh"
+        "deploy": "bash deploy.sh",
+        "deploy:prod": "bash deploy-prod.sh"
     },
     "dependencies": {
         "qiankun": "^2.10.16",

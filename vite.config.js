@@ -32,8 +32,8 @@ export default defineConfig({
             // }
         },
     },
-    // 生产环境基础路径（使用绝对路径，确保在任何路由下都能正确加载资源）
-    base: '/',
+    // 生产环境基础路径
+    base: '/frame/',
     build: {
         // 输出目录
         outDir: 'dist',
@@ -53,12 +53,8 @@ export default defineConfig({
         minify: 'terser',
         terserOptions: {
             compress: {
-                drop_console: false, // 保留 console，方便调试
+                drop_console: true, // 生产环境移除 console
                 drop_debugger: true
-            },
-            mangle: {
-                keep_classnames: true,
-                keep_fnames: true
             }
         },
         // Rollup 配置

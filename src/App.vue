@@ -13,7 +13,6 @@
         <router-link to="/vue/home" class="nav-link">Vue 子应用</router-link>
         <router-link to="/react/home" class="nav-link">React 子应用</router-link>
         <router-link to="/react/contact" class="nav-link">React 子应用 contact</router-link>
-
       </nav>
     </header>
     <main class="main-content">
@@ -44,6 +43,7 @@ const route = useRoute()
 const isDark = ref(false)
 
 // 判断当前是否在微应用路由下
+// 注意：route.path 不包含 base 路径，所以判断 /vue 和 /react
 const isMicroApp = computed(() => {
   return route.path.startsWith('/vue') || route.path.startsWith('/react')
 })

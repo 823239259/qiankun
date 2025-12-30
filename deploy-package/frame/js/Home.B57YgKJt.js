@@ -1,0 +1,1 @@
+import{_ as n}from"./index.GJKsKlwz.js";import{a as o,b as s,g as e}from"./vue-vendor.BuG_iGXk.js";import"./qiankun-vendor.BSfzf2br.js";const r={class:"home-view"};const a=n({},[["render",function(n,a){return e(),o("div",r,[...a[0]||(a[0]=[s("h2",null,"主应用首页",-1),s("p",null,"这是主应用的首页内容",-1)])])}],["__scopeId","data-v-637ccbc8"]]);export{a as default};

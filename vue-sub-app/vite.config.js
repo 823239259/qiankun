@@ -60,12 +60,8 @@ export default defineConfig(({ mode }) => {
             minify: 'terser',
             terserOptions: {
                 compress: {
-                    drop_console: false, // 保留 console，方便调试
+                    drop_console: true, // 生产环境移除 console
                     drop_debugger: true
-                },
-                mangle: {
-                    keep_classnames: true,
-                    keep_fnames: true
                 }
             },
             // Rollup 配置

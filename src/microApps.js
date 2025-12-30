@@ -38,20 +38,20 @@ export const microApps = [
         name: 'vue-sub-app', // 微应用名称，必须唯一
         entry: getEntry('vue', 5555), // 微应用的入口地址
         container: '#subapp-viewport', // 微应用挂载的容器
-        activeRule: '/vue', // 激活路由规则
+        activeRule: '/frame/vue', // 在主应用中访问子应用的路由
         props: {
             // 传递给微应用的数据
-            routerBase: '/vue'
+            routerBase: '/frame/vue'
         }
     },
     {
         name: 'react-sub-app', // 微应用名称，必须唯一
         entry: getEntry('react', 8082), // 微应用的入口地址
         container: '#subapp-viewport', // 微应用挂载的容器
-        activeRule: '/react', // 激活路由规则
+        activeRule: '/frame/react', // 在主应用中访问子应用的路由
         props: {
             // 传递给微应用的数据
-            routerBase: '/react'
+            routerBase: '/frame/react'
         }
     }
     // 可以继续添加更多微应用
