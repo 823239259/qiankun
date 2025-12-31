@@ -4,11 +4,13 @@ import qiankun from 'vite-plugin-qiankun'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig(({ mode }) => {
+    const isDev = mode === 'development'
+
     return {
         plugins: [
             vue(),
             qiankun('vue-sub-app', {
-                useDevMode: true
+                useDevMode: isDev  // 只在开发模式下启用
             })
         ],
         resolve: {
