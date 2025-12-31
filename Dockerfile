@@ -2,7 +2,7 @@
 # 多阶段构建：构建 + 运行
 
 # ========== 构建阶段 ==========
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # 设置国内镜像源
 RUN npm config set registry https://registry.npmmirror.com

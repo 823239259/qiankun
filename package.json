@@ -20,7 +20,8 @@
         "build:all:prod": "npm run build:prod && cd vue-sub-app && npm run build:prod && cd ../react-sub-app && npm run build:prod",
         "start:preview": "npm run build:preview && npm run preview:all",
         "deploy": "bash deploy.sh",
-        "deploy:prod": "bash deploy-prod.sh"
+        "deploy:prod": "bash deploy-prod.sh",
+        "deploy:docker": "bash deploy-docker.sh"
     },
     "dependencies": {
         "qiankun": "^2.10.16",
