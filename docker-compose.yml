@@ -5,8 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: qiankun-app:latest
+    container_name: qiankun-app
     ports:
-      - "80:80"
+      - "3080:80"  # 映射到宿主机 3080 端口，避免与宝塔 Nginx 冲突
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/health"]
@@ -15,8 +17,20 @@ services:
       retries: 3
       start_period: 10s
 
-# 使用方法：
-# 构建并启动: docker-compose up -d --build
-# 查看日志: docker-compose logs -f
-# 停止: docker-compose down
-
+# ============ 使用方法 ============
+#
+# 1. 构建并启动:
+#    docker-compose up -d --build
+#
+# 2. 查看日志:
+#    docker-compose logs -f
+#
+# 3. 停止:
+#    docker-compose down
+#
+# 4. 重新构建:
+#    docker-compose build --no-cache
+#
+# ============ 宝塔接入 ============
+#
+# 在宝塔面板中，使用反向代理将域名指向 http://127.0.0.1:3080

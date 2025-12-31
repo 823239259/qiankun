@@ -1,0 +1,25 @@
+# 忽略 node_modules（Docker 构建时重新安装）
+node_modules
+vue-sub-app/node_modules
+react-sub-app/node_modules
+
+# 忽略构建产物（Docker 构建时重新生成）
+dist
+vue-sub-app/dist
+react-sub-app/dist
+deploy-package
+
+# 忽略开发文件
+*.log
+*.md
+.git
+.gitignore
+.vscode
+.idea
+*.zip
+
+# 忽略文档
+DEPLOY_GUIDE.md
+BUILD.md
+SOLUTIONS.md
+
