@@ -51,7 +51,10 @@ function render (props = {}) {
 
 // 独立运行时
 if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
-    render()
+    // 独立运行时，路由 base 统一为 /vue（开发和生产环境一致）
+    const routerBase = '/vue'
+    console.log('[vue-sub-app] 独立运行，routerBase:', routerBase)
+    render({ routerBase })
 } else {
     // 使用 vite-plugin-qiankun 的辅助函数
     renderWithQiankun({

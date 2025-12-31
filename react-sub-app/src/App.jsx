@@ -22,8 +22,12 @@ function App({ routerBase }) {
 
   // 根据是否在 qiankun 环境中动态设置 basename
   const isQiankun = qiankunWindow.__POWERED_BY_QIANKUN__
-  // 正确设置 basename：在 qiankun 环境中使用 routerBase，否则使用 '/'
-  const basename = isQiankun ? (routerBase || '/react') : '/'
+  // 正确设置 basename：
+  // - qiankun 环境：使用主应用传递的 routerBase（如 /frame/react）
+  // - 独立运行：统一使用 /react（开发和生产环境一致）
+  const basename = isQiankun
+    ? (routerBase || '/react')
+    : (routerBase || '/react')
 
   console.log('isQiankun', isQiankun)
   console.log('basename', basename)

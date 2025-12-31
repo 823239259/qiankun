@@ -178,6 +178,9 @@ renderWithQiankun({
 
 // 独立运行时
 if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
-  render({ routerBase: '/' })
+  // 独立运行时，路由 base 统一为 /react（开发和生产环境一致）
+  const routerBase = '/react'
+  console.log('[react-sub-app] 独立运行，routerBase:', routerBase)
+  render({ routerBase })
 }
 

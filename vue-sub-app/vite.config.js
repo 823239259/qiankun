@@ -27,13 +27,9 @@ export default defineConfig(({ mode }) => {
             },
             hmr: false // 禁用 HMR，避免与 qiankun 冲突
         },
-        // base 路径配置：
-        // - development: 空字符串（开发服务器）
-        // - preview: 完整 URL（vite-plugin-qiankun 需要完整的部署地址）
-        // - production: 相对路径（生产部署）
-        base: mode === 'preview'
-            ? 'http://localhost:5555/'
-            : (mode === 'production' ? '/vue/' : ''),
+        // base 路径配置：统一使用 /vue/ 前缀
+        // 开发环境和生产环境保持一致的路由前缀
+        base: mode === 'production' ? `/vue` : '',
         // base: 'http://localhost:5555/',
         // base: '/vue/',
         // css: {

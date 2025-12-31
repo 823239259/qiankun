@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import { fileURLToPath, URL } from 'node:url'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
     plugins: [vue()],
     resolve: {
         alias: {
@@ -14,23 +14,10 @@ export default defineConfig({
         port: 7777,
         cors: true,
         origin: 'http://localhost:7777',
-        proxy: {
-            // '/vue/': {
-            //     target: 'http://localhost:5555',
-            //     changeOrigin: true,
-            //     rewrite: (path) => path.replace(/^\/vue/, '/vue')
-            // },
-            // '/react/': {
-            //     target: 'http://localhost:8082',
-            //     changeOrigin: true,
-            //     rewrite: (path) => path.replace(/^\/react/, '/react')
-            // },
-            // "/*": {
-            //     target: 'http://localhost:7777',
-            //     changeOrigin: true,
-            //     rewrite: (path) => path.replace(/^\//, '/')
-            // }
-        },
+        proxy: mode === 'development' ? {
+            // 开发环境：代理子应用请求到对应的开发服务器
+            // 注意：这里只代理静态资源，不代理 HTML（HTML 由子应用自己处理）
+        } : {},
     },
     // 生产环境基础路径
     base: '/frame/',
@@ -85,5 +72,5 @@ export default defineConfig({
         // 生产环境 CSS 压缩
         minify: true
     }
-})
+}))
 

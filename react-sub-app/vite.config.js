@@ -28,13 +28,9 @@ export default defineConfig(({ mode }) => {
             },
             hmr: false // 禁用 HMR，避免与 qiankun 冲突
         },
-        // base 路径配置：
-        // - development: 完整 URL（开发服务器）
-        // - preview: 完整 URL（vite-plugin-qiankun 需要完整的部署地址）
-        // - production: 相对路径（生产部署）
-        base: mode === 'preview'
-            ? 'http://localhost:8082/'
-            : (mode === 'production' ? '/react/' : 'http://localhost:8082/'),
+        // base 路径配置：统一使用 /react/ 前缀
+        // 开发环境和生产环境保持一致的路由前缀
+        base: mode === 'production' ? `/react` : '',
         build: {
             // 输出目录
             outDir: 'dist',
