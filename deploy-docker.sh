@@ -6,12 +6,33 @@
 
 set -e  # 遇到错误立即退出
 
-# ========== 配置区域（根据你的服务器修改）==========
-SERVER_IP="47.109.85.54"
-SERVER_USER="root"
-SERVER_PATH="/www/wwwroot/qiankun-docker"
+# 获取脚本所在目录
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/deploy.config"
+
+# 检查配置文件是否存在
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "❌ 错误: 配置文件不存在: $CONFIG_FILE"
+    echo ""
+    echo "请创建配置文件，内容如下："
+    echo "----------------------------------------"
+    echo "SERVER_IP=你的服务器IP"
+    echo "SERVER_USER=root"
+    echo "SERVER_PATH=/www/wwwroot/qiankun-docker"
+    echo "----------------------------------------"
+    exit 1
+fi
+
+# 读取配置文件
+source "$CONFIG_FILE"
+
+# 验证必要配置
+if [ -z "$SERVER_IP" ] || [ -z "$SERVER_USER" ] || [ -z "$SERVER_PATH" ]; then
+    echo "❌ 错误: 配置文件缺少必要参数"
+    exit 1
+fi
+
 ZIP_NAME="qiankun-source.zip"
-# ==================================================
 
 echo ""
 echo "🚀 ========================================"
@@ -19,8 +40,6 @@ echo "   Qiankun Docker 一键部署"
 echo "========================================"
 echo ""
 
-# 获取脚本所在目录
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
 # 第 1 步：打包源码

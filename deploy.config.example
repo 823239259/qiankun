@@ -1,0 +1,13 @@
+# 部署配置文件模板
+# 复制此文件为 deploy.config 并填写实际值
+# ⚠️ deploy.config 包含敏感信息，已被 .gitignore 忽略
+
+# 服务器 IP 地址
+SERVER_IP=你的服务器IP
+
+# SSH 用户名
+SERVER_USER=root
+
+# 服务器上的部署路径
+SERVER_PATH=/www/wwwroot/qiankun-docker
+

@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# 部署配置（包含敏感信息）
+deploy.config
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
